@@ -1,0 +1,119 @@
+From b79f5f98fc3e3c698012ed4ccedf9a6bc4fcb777 Mon Sep 17 00:00:00 2001
+From: Kira Bruneau <kira.bruneau@pm.me>
+Date: Thu, 7 Nov 2024 02:22:48 -0500
+Subject: [PATCH] yabridge: 5.1.0 -> 5.1.1
+
+---
+ pkgs/tools/audio/yabridge/default.nix                       | 4 ++--
+ pkgs/tools/audio/yabridge/hardcode-dependencies.patch       | 6 +++---
+ .../audio/yabridge/libyabridge-from-nix-profiles.patch      | 2 +-
+ pkgs/tools/audio/yabridgectl/Cargo.lock                     | 2 +-
+ .../audio/yabridgectl/chainloader-from-nix-profiles.patch   | 4 ++--
+ .../audio/yabridgectl/remove-dependency-verification.patch  | 2 +-
+ 6 files changed, 10 insertions(+), 10 deletions(-)
+
+diff --git a/pkgs/tools/audio/yabridge/default.nix b/pkgs/tools/audio/yabridge/default.nix
+index c356f17cb43b9..540ffb8eaff32 100644
+--- a/pkgs/tools/audio/yabridge/default.nix
++++ b/pkgs/tools/audio/yabridge/default.nix
+@@ -72,14 +72,14 @@ let
+ in
+ multiStdenv.mkDerivation (finalAttrs: {
+   pname = "yabridge";
+-  version = "5.1.0";
++  version = "5.1.1";
+ 
+   # NOTE: Also update yabridgectl's cargoHash when this is updated
+   src = fetchFromGitHub {
+     owner = "robbert-vdh";
+     repo = "yabridge";
+     rev = "refs/tags/${finalAttrs.version}";
+-    hash = "sha256-vnSdGedpiit8nym26i1QFiNnATk0Bymm7e5Ha2H41/M=";
++    hash = "sha256-4eA3vQFklIWkhtbd3Nw39bnJT6gPcni79ZyQVqU4+GQ=";
+   };
+ 
+   # Unpack subproject sources
+diff --git a/pkgs/tools/audio/yabridge/hardcode-dependencies.patch b/pkgs/tools/audio/yabridge/hardcode-dependencies.patch
+index d33bdf30eed23..e5ab002938585 100644
+--- a/pkgs/tools/audio/yabridge/hardcode-dependencies.patch
++++ b/pkgs/tools/audio/yabridge/hardcode-dependencies.patch
+@@ -1,5 +1,5 @@
+ diff --git a/meson.build b/meson.build
+-index c602c5ad..a52e20a1 100644
++index 9e69128d..8c53ac88 100644
+ --- a/meson.build
+ +++ b/meson.build
+ @@ -226,7 +226,7 @@ if is_64bit_system
+@@ -12,7 +12,7 @@ index c602c5ad..a52e20a1 100644
+  
+  # These are all headers-only libraries, and thus won't require separate 32-bit
+ diff --git a/src/common/notifications.cpp b/src/common/notifications.cpp
+-index 66e08527..685c54af 100644
++index 654b6c83..78ba2fe7 100644
+ --- a/src/common/notifications.cpp
+ +++ b/src/common/notifications.cpp
+ @@ -29,8 +29,8 @@
+@@ -27,7 +27,7 @@ index 66e08527..685c54af 100644
+  std::atomic<void*> libdbus_handle = nullptr;
+  std::mutex libdbus_mutex;
+ diff --git a/src/plugin/utils.cpp b/src/plugin/utils.cpp
+-index 82db99a5..491f005d 100644
++index 441345c6..f3e51cff 100644
+ --- a/src/plugin/utils.cpp
+ +++ b/src/plugin/utils.cpp
+ @@ -103,7 +103,7 @@ std::string PluginInfo::wine_version() const {
+diff --git a/pkgs/tools/audio/yabridge/libyabridge-from-nix-profiles.patch b/pkgs/tools/audio/yabridge/libyabridge-from-nix-profiles.patch
+index 54125551e3153..bcc55d48f0aaa 100644
+--- a/pkgs/tools/audio/yabridge/libyabridge-from-nix-profiles.patch
++++ b/pkgs/tools/audio/yabridge/libyabridge-from-nix-profiles.patch
+@@ -1,5 +1,5 @@
+ diff --git a/src/chainloader/utils.cpp b/src/chainloader/utils.cpp
+-index c43e5693..b8352adf 100644
++index fa90b8f7..bd44d0ea 100644
+ --- a/src/chainloader/utils.cpp
+ +++ b/src/chainloader/utils.cpp
+ @@ -29,8 +29,10 @@
+diff --git a/pkgs/tools/audio/yabridgectl/Cargo.lock b/pkgs/tools/audio/yabridgectl/Cargo.lock
+index 451b0ae0141c4..1bdd1ede22afa 100644
+--- a/pkgs/tools/audio/yabridgectl/Cargo.lock
++++ b/pkgs/tools/audio/yabridgectl/Cargo.lock
+@@ -914,7 +914,7 @@ checksum = "213b7324336b53d2414b2db8537e56544d981803139155afa84f76eeebb7a546"
+ 
+ [[package]]
+ name = "yabridgectl"
+-version = "5.1.0"
++version = "5.1.1"
+ dependencies = [
+  "anyhow",
+  "clap",
+diff --git a/pkgs/tools/audio/yabridgectl/chainloader-from-nix-profiles.patch b/pkgs/tools/audio/yabridgectl/chainloader-from-nix-profiles.patch
+index 35193c919f63b..763b4a67a3b68 100644
+--- a/pkgs/tools/audio/yabridgectl/chainloader-from-nix-profiles.patch
++++ b/pkgs/tools/audio/yabridgectl/chainloader-from-nix-profiles.patch
+@@ -1,5 +1,5 @@
+ diff --git a/tools/yabridgectl/src/config.rs b/tools/yabridgectl/src/config.rs
+-index da5f4ff5..c220d62d 100644
++index d948beff..9b3f9ffb 100644
+ --- a/tools/yabridgectl/src/config.rs
+ +++ b/tools/yabridgectl/src/config.rs
+ @@ -22,6 +22,7 @@ use serde_derive::{Deserialize, Serialize};
+@@ -58,7 +58,7 @@ index da5f4ff5..c220d62d 100644
+                          ));
+                      }
+ diff --git a/tools/yabridgectl/src/main.rs b/tools/yabridgectl/src/main.rs
+-index 0a29d431..479eaef0 100644
++index e66ef0da..bfe9c8bf 100644
+ --- a/tools/yabridgectl/src/main.rs
+ +++ b/tools/yabridgectl/src/main.rs
+ @@ -134,7 +134,7 @@ fn main() -> Result<()> {
+diff --git a/pkgs/tools/audio/yabridgectl/remove-dependency-verification.patch b/pkgs/tools/audio/yabridgectl/remove-dependency-verification.patch
+index a1494a490384e..d320e489eec65 100644
+--- a/pkgs/tools/audio/yabridgectl/remove-dependency-verification.patch
++++ b/pkgs/tools/audio/yabridgectl/remove-dependency-verification.patch
+@@ -1,5 +1,5 @@
+ diff --git a/tools/yabridgectl/src/actions.rs b/tools/yabridgectl/src/actions.rs
+-index a0d9b98e..2819f017 100644
++index 6a8be858..5ce5e460 100644
+ --- a/tools/yabridgectl/src/actions.rs
+ +++ b/tools/yabridgectl/src/actions.rs
+ @@ -847,14 +847,6 @@ pub fn do_sync(config: &mut Config, options: &SyncOptions) -> Result<()> {
